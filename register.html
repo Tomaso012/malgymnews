@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrace</title>
+</head>
+<body>
+  <h1>Registrace</h1>
+  <input id="user" placeholder="Uživatel"><br>
+  <input id="pass" placeholder="Heslo" type="password"><br>
+  <button onclick="register()">Zaregistrovat se</button>
+
+  <script>
+    function register() {
+      fetch('https://api.malgymnews.eu/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('user').value,
+          password: document.getElementById('pass').value
+        })
+      })
+      .then(res => {
+        if (res.ok) {
+          alert('Účet vytvořen, přihlaš se.');
+          window.location.href = 'login.html';
+        } else {
+          alert('Uživatel už existuje nebo došlo k chybě.');
+        }
+      })
+      .catch(err => {
+        console.error("Chyba při fetchi:", err);
+        alert("Chyba při registraci.");
+      });
+    }
+  </script>
+</body>
+</html>
